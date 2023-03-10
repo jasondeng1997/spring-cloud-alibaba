@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2018 the original author or authors.
+ * Copyright 2013-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,13 +31,13 @@ import org.slf4j.Logger;
  * @author raozihao, mageekchiu
  * @author <a href="mailto:zihaorao@gmail.com">Steve</a>
  */
-public class ResponseInterceptor implements Decoder {
+public class FeignResponseDecoderInterceptor implements Decoder {
 
 	private static final Logger logger = LogUtil.getLogger();
 
 	final Decoder delegate;
 
-	public ResponseInterceptor(Decoder delegate) {
+	public FeignResponseDecoderInterceptor(Decoder delegate) {
 		Objects.requireNonNull(delegate, "Decoder must not be null. ");
 		this.delegate = delegate;
 	}
@@ -46,7 +46,7 @@ public class ResponseInterceptor implements Decoder {
 	public Object decode(Response response, Type type)
 			throws IOException, FeignException {
 		Object object = delegate.decode(response, type);
-		logger.info("ResponseInterceptor uri {} for request {} got cleared by {}",
+		logger.info("FeignResponseDecoderInterceptor uri {} for request {} got cleared by {}",
 				UriContext.getUriPath(), response.request().url(), delegate.getClass());
 		UriContext.clearContext();
 		return object;

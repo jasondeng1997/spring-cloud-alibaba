@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2018 the original author or authors.
+ * Copyright 2013-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-package com.alibaba.cloud.appactive.constant;
+package com.alibaba.cloud.example.common;
+
+import java.util.List;
+
+import com.alibaba.cloud.example.common.entity.Product;
+import com.alibaba.cloud.example.common.entity.ResultHolder;
 
 /**
- * @author raozihao, mageekchiu
- * @author <a href="mailto:zihaorao@gmail.com">Steve</a>
+ * @author yuluo
  */
-public final class Constants {
 
-	/**
-	 * Router Id header key.
-	 */
-	public static final String ROUTER_ID_HEADER_KEY = "appactive-router-id";
+public interface ProductService {
 
-	private Constants() {
-	}
+	ResultHolder<List<Product>> list();
+
+	ResultHolder<Product> detail(String rId, String pId);
+
+	ResultHolder<Product> detailHidden(String pId);
+
+	ResultHolder<String> buy(String rpcType, String rId, String pId, Integer number);
 
 }

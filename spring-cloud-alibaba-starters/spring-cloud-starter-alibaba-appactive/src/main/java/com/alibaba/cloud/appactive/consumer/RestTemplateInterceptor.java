@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2018 the original author or authors.
+ * Copyright 2013-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package com.alibaba.cloud.appactive.consumer;
 import java.io.IOException;
 
 import com.alibaba.cloud.appactive.common.UriContext;
-import com.alibaba.cloud.appactive.constant.Constants;
+import com.alibaba.cloud.appactive.constant.AppactiveConstants;
 import io.appactive.java.api.base.AppContextClient;
 import io.appactive.support.log.LogUtil;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ import org.springframework.http.client.ClientHttpResponse;
  * @author raozihao, mageekchiu
  * @author <a href="mailto:zihaorao@gmail.com">Steve</a>
  */
-public class ReqResInterceptor implements ClientHttpRequestInterceptor {
+public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
 
 	private static final Logger logger = LogUtil.getLogger();
 
@@ -41,13 +41,13 @@ public class ReqResInterceptor implements ClientHttpRequestInterceptor {
 	public ClientHttpResponse intercept(HttpRequest request, byte[] body,
 			ClientHttpRequestExecution execution) throws IOException {
 
-		request.getHeaders().add(Constants.ROUTER_ID_HEADER_KEY,
+		request.getHeaders().add(AppactiveConstants.ROUTER_ID_HEADER_KEY,
 				AppContextClient.getRouteId());
 		UriContext.setUriPath(request.getURI().getPath());
 
 		ClientHttpResponse response = execution.execute(request, body);
 
-		logger.info("ReqResInterceptor uri {} for request {} got cleared",
+		logger.info("RestTemplateInterceptor uri {} for request {} got cleared",
 				UriContext.getUriPath(), request.getURI());
 		UriContext.clearContext();
 		return response;
